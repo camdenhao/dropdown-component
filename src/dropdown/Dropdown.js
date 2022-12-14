@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './dropdown.css';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { AiOutlineClose } from 'react-icons/ai';
 
-function Dropdown({placeholder, options, multiSelect, onChange}){
+function Dropdown({placeholder, options, multiSelect, onChange, selectedStyling, menuStyling}){
     const [menuVisible, setMenuVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(multiSelect ? [] : null);
     const inputRef = useRef();
@@ -28,7 +30,9 @@ function Dropdown({placeholder, options, multiSelect, onChange}){
                     {selectedItem.map((option) => (
                     <div key={option.value} className="dropdown-tag-item">
                         {option.label}
-                        <span onClick={(e) => onTagRemove(e, option)} className="dropdown-tag-close">x</span>
+                        <span onClick={(e) => onTagRemove(e, option)} className="dropdown-tag-close">
+                            <AiOutlineClose style={{color: 'white'}}/>
+                        </span>
                     </div>
                 ))}
                 </div>
@@ -50,7 +54,6 @@ function Dropdown({placeholder, options, multiSelect, onChange}){
     }
 
     const handleMenuClick = (e) => {
-        e.stopPropagation();
         setMenuVisible(!menuVisible);
     }
 
@@ -76,10 +79,27 @@ function Dropdown({placeholder, options, multiSelect, onChange}){
         onChange(newValue);
     }
 
+    const handleAll = () => {
+        if(selectedItem.length > 0){
+            setSelectedItem([]);
+            onChange([]);
+        }
+        else{
+            setSelectedItem([...options]);
+            onChange([...options]);
+        }
+    }
+
     return(
-        <div ref={inputRef} className="dropdown-container" >
-            <div className="dropdown-selected" onClick={handleMenuClick}>{getSelected()}</div>
-            {menuVisible && <div className="dropdown-menu">
+        <div ref={inputRef} className="dropdown-container">
+            <div className="dropdown-selected" onClick={handleMenuClick} style={selectedStyling}>
+                {getSelected()} 
+                <div className="menu-toggle-icon">
+                    {menuVisible ? <FaChevronUp /> : <FaChevronDown/>}
+                </div>
+            </div>
+            {menuVisible && <div className="dropdown-menu" style={menuStyling}>
+                {multiSelect && <div onClick={() => handleAll()} className="dropdown-item">{selectedItem.length > 0 ? "Deselect all" : "Select all"}</div>}
                 {options.map(option => (
                     <div onClick={() => onItemClick(option)} key={option.value} className={`dropdown-item ${isSelected(option) && 'selected'}`}>{option.label}</div>
                 ))}

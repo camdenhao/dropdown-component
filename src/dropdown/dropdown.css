@@ -5,13 +5,31 @@
     width: 400px;
     padding: 5px;
     overflow: hidden;
+    font-family: "Trebuchet MS";
+    font-weight: bold;
 }
 
 .dropdown-selected{
+    position: relative;
     padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-radius: 5px;
     border: 2px solid #3B7197;
     background-color: #E9EEF2;
+    overflow-y: auto;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+
+.dropdown-selected::-webkit-scrollbar{
+    display: none;
+}
+
+.menu-toggle-icon{
+    position: absolute;
+    right: 5px;
 }
 
 .dropdown-menu{
@@ -48,6 +66,7 @@
 
 .dropdown-item.selected{
     background-color: #3B7197;
+    color: white;
 }
 
 .dropdown-item.selected:hover{
@@ -59,14 +78,23 @@
     flex-wrap: wrap;
     gap: 3px;
     width: '100%';
-    overflow: auto;
+    /* overflow: auto; */
 }
 
 .dropdown-tag-item{
+    display: flex;
+    align-items: center;
     padding: 5px;
     background-color: #3B7197; 
     color: white;
     border-radius: 2px;
     width: fit-content;
     cursor: pointer;
+}
+
+.dropdown-tag-close{
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
