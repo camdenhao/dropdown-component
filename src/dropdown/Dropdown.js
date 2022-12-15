@@ -3,14 +3,17 @@ import './dropdown.css';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 
-function Dropdown({placeholder, options, multiSelect, onChange, selectedStyling, menuStyling}){
+function Dropdown({placeholder, options, multiSelect, onChange, searchable, selectedStyling, menuStyling}){
     const [menuVisible, setMenuVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(multiSelect ? [] : null);
+    const [filteredItems, setFilteredItems] = useState(options);
+
     const inputRef = useRef();
 
     useEffect(() => {
         const handler = (e) => {
             if(inputRef.current && !inputRef.current.contains(e.target)){
+                setFilteredItems(options);
                 setMenuVisible(false);
             }
         }
@@ -85,24 +88,32 @@ function Dropdown({placeholder, options, multiSelect, onChange, selectedStyling,
             onChange([]);
         }
         else{
-            setSelectedItem([...options]);
-            onChange([...options]);
+            setSelectedItem([...filteredItems]);
+            onChange([...filteredItems]);
         }
+    }
+
+    const handleSearchText = (event) => {
+        setFilteredItems(options.filter((option) => option.label.toLowerCase().indexOf(event.target.value) !== -1));
     }
 
     return(
         <div ref={inputRef} className="dropdown-container">
             <div className="dropdown-selected" onClick={handleMenuClick} style={selectedStyling}>
                 {getSelected()} 
-                <div className="menu-toggle-icon">
-                    {menuVisible ? <FaChevronUp /> : <FaChevronDown/>}
+                <div  className="menu-toggle-icon">
+                    {menuVisible ? <FaChevronUp /> : <FaChevronDown />}
                 </div>
             </div>
-            {menuVisible && <div className="dropdown-menu" style={menuStyling}>
-                {multiSelect && <div onClick={() => handleAll()} className="dropdown-item">{selectedItem.length > 0 ? "Deselect all" : "Select all"}</div>}
-                {options.map(option => (
+            {menuVisible && 
+            <div>
+                {searchable && <input className="search-bar" placeholder="Search" onChange={(e) => handleSearchText(e)}/>}
+                <div className="dropdown-menu" style={menuStyling}>
+                {multiSelect &&  <div onClick={() => handleAll()} className="dropdown-item">{selectedItem.length > 0 ? "Deselect all" : "Select all"}</div>}
+                {filteredItems.map(option => (
                     <div onClick={() => onItemClick(option)} key={option.value} className={`dropdown-item ${isSelected(option) && 'selected'}`}>{option.label}</div>
-                ))}
+                    ))}
+                </div>
             </div>}
         </div>
     );

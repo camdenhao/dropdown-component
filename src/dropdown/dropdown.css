@@ -32,8 +32,15 @@
     right: 5px;
 }
 
+.search-bar{
+    width: 98%;
+    margin-top: 5px;
+    border: 2px solid #3B7197;
+    border-radius: 5px;
+    height: 20px;
+}
+
 .dropdown-menu{
-    width: '100%';
     background-color: #E9EEF2;
     margin-top: 5px;
     overflow-y: auto;
@@ -77,8 +84,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 3px;
-    width: '100%';
-    /* overflow: auto; */
+    width: 100%;
 }
 
 .dropdown-tag-item{

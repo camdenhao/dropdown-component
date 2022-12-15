@@ -9,8 +9,8 @@
   font-size: 30px;
 }
 
-ul{
-  text-align: start;
+.info{
+  font-weight: bold;
 }
 
 .App-logo {
