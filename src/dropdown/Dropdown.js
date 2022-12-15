@@ -10,7 +10,7 @@ function Dropdown({placeholder, options, multiSelect, onChange, searchable, sele
 
     const inputRef = useRef();
 
-    useEffect(() => {
+    useEffect(() => { // close dropdown when clicking other parts of window 
         const handler = (e) => {
             if(inputRef.current && !inputRef.current.contains(e.target)){
                 setFilteredItems(options);
@@ -24,7 +24,8 @@ function Dropdown({placeholder, options, multiSelect, onChange, searchable, sele
         };
     })
 
-    const getSelected = () => {
+    // what to display on dropdown bar: placeholder if empty
+    const getSelected = () => { 
         if(!selectedItem  || selectedItem.length === 0) return placeholder;
 
         if (multiSelect){
@@ -45,21 +46,25 @@ function Dropdown({placeholder, options, multiSelect, onChange, searchable, sele
         return selectedItem.label;
     }
 
-    const removeOption = (option) => {
+    // for multi-select: remove selected option
+    const removeOption = (option) => {  
         const filtered = selectedItem.filter((op) => op.value !== option.value);
         onChange(filtered);
         return filtered;
     }
 
+    // handler for clicking 'X' icon on multi-select icon
     const onTagRemove = (e, option) => {
         e.stopPropagation();
         setSelectedItem(removeOption(option));
     }
 
+    // toggle to show dropdown options
     const handleMenuClick = (e) => {
         setMenuVisible(!menuVisible);
     }
 
+    // for each option, check if it has been selected
     const isSelected = (option) => {
         if(multiSelect){
             return selectedItem.filter((op) => op.value === option.value).length > 0;
@@ -67,6 +72,7 @@ function Dropdown({placeholder, options, multiSelect, onChange, searchable, sele
         return selectedItem?.value === option.value;
     }
 
+    // handler for clicking on an option in the dropdown
     const onItemClick = (option) => {
         let newValue; 
         if (multiSelect){
@@ -82,6 +88,7 @@ function Dropdown({placeholder, options, multiSelect, onChange, searchable, sele
         onChange(newValue);
     }
 
+    // handler for clicking "Select All" or "Deselect All"
     const handleAll = () => {
         if(selectedItem.length > 0){
             setSelectedItem([]);

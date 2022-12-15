@@ -49,13 +49,13 @@ function App() {
             />
           </div>
           <div>
-          <p>Multi select:</p>
-            <Dropdown placeholder='Select options' 
-            options={options} 
-            multiSelect 
-            searchable
-            onChange={(value) => console.log(value)}
-            />
+            <p>Multi select:</p>
+              <Dropdown placeholder='Select options' 
+              options={options} 
+              multiSelect 
+              searchable
+              onChange={(value) => console.log(value)}
+              />
           </div>
         </div>
         
