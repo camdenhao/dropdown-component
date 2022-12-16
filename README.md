@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## To start the project:
 
-run command `npm start` in the root directory. The demo will be up and running at `localhost:3000`. 
+run commands `npm install` and `npm start` in the root directory. The demo will be up and running at `localhost:3000`. 
 
 ## Props supported: 
 
